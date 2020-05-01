@@ -39,13 +39,24 @@ function loadObject(value, options) {
 // We have to set the top level syntax to "proto3" to force protobufjs to treat
 // the whole JSON output from pbjs as "proto3", otherwise it generates it as if
 // it was "proto2", which causes incorrect parsing behaviour.
-bundle.syntax = 'proto3';
+// bundle.syntax = 'proto3';
 
 // This generates an export tree with all the namespaces and types under it, for
 // example:
 // const fabprotos = require('fabric-protos');
 // const block = fabprotos.common.Block.decode(...);
 // const gossipClient = new fabprotos.gossip.Gossip(...);
-const builder = protobuf.loadJson(bundle);
-const root = loadObject(builder.ns, {protobufjsVersion: 5});
+
+const root = protobuf.Root.fromJSON(bundle);
 module.exports = root;
+
+
+// const test = root.lookupTypeOrEnum('Namespace');
+// console.log('does this work?');
+// console.log(test);
+
+// console.log('DEBUG: remove: root.nested.google');
+// console.log(root.nested.google);
+// const root = loadObject(builder.ns, {protobufjsVersion: 5});
+// console.log('DEBUG: remove: root:');
+// console.log(root);

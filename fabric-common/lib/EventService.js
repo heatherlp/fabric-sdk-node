@@ -15,11 +15,12 @@ const EventListener = require('./EventListener.js');
 const logger = getLogger(TYPE);
 
 const fabprotos = require('fabric-protos');
+const txValidationCodeProto = fabprotos.lookup(['protos', 'TxValidationCode']);
 
 const _validation_codes = {};
-const keys = Object.keys(fabprotos.protos.TxValidationCode);
+const keys = Object.keys(txValidationCodeProto);
 for (const key of keys) {
-	const new_key = fabprotos.protos.TxValidationCode[key];
+	const new_key = txValidationCodeProto[key];
 	_validation_codes[new_key] = key;
 }
 
@@ -591,9 +592,8 @@ class EventService extends ServiceAction {
 
 		if (this._current_eventer && this._current_eventer.isStreamReady()) {
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	/**
@@ -606,9 +606,8 @@ class EventService extends ServiceAction {
 
 		if (this._eventListenerRegistrations.size > 0) {
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	/*

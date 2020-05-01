@@ -11,18 +11,20 @@ const logger = getLogger(TYPE);
 const ServiceEndpoint = require('./ServiceEndpoint.js');
 
 const fabprotos = require('fabric-protos');
+const txValidationCodeProto = fabprotos.lookup(['protos', 'TxValidationCode']);
 
 const _validation_codes = {};
-let keys = Object.keys(fabprotos.protos.TxValidationCode);
+let keys = Object.keys(txValidationCodeProto);
 for (const key of keys) {
-	const new_key = fabprotos.protos.TxValidationCode[key];
+	const new_key = txValidationCodeProto[key];
 	_validation_codes[new_key] = key;
 }
 
+const commonProto = fabprotos.lookup('common');
 const _header_types = {};
-keys = Object.keys(fabprotos.common.HeaderType);
+keys = Object.keys(commonProto.HeaderType);
 for (const key of keys) {
-	const new_key = fabprotos.common.HeaderType[key];
+	const new_key = commonProto.HeaderType[key];
 	_header_types[new_key] = key;
 }
 

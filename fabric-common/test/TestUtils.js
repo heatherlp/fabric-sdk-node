@@ -67,11 +67,15 @@ module.exports.createProposalResponse = (results, status = 200) => {
 	if (typeof results !== 'string') {
 		results = '';
 	}
-	const extension = new fabprotos.protos.ChaincodeAction();
-	extension.response = new fabprotos.protos.Response();
+	const protos = fabprotos.lookup('protos');
+	const proposalProtos = fabprotos.lookup(['proposal', 'ChaincodeAction']);
+	console.log('DEBUG:');
+	console.log(proposalProtos);
+	const extension = new proposalProtos.ChaincodeAction();
+	extension.response = new protos.Response();
 	extension.results = Buffer.from(results);
 
-	const payload = new fabprotos.protos.ProposalResponsePayload();
+	const payload = new protos.ProposalResponsePayload();
 	payload.extension = extension.toBuffer();
 
 	const identity = new fabprotos.msp.SerializedIdentity();
